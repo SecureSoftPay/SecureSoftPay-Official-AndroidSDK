@@ -37,7 +37,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":SecureSoftPay-SDK"))
+    implementation(project(":SecureSoftPay-Official-AndroidSDK"))
     // আপনার SDK মডিউলটি এখানে যুক্ত করা হয়েছে
 
     implementation("androidx.core:core-ktx:1.12.0")
