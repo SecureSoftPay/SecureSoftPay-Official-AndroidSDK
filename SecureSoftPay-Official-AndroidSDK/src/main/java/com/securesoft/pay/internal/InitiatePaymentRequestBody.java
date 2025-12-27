@@ -2,7 +2,6 @@ package com.securesoft.pay.internal;
 
 import com.google.gson.annotations.SerializedName;
 
-// এই ক্লাসটি এখন তার নিজের ফাইলে আছে
 public final class InitiatePaymentRequestBody {
     final double amount;
     @SerializedName("client_base_url")

@@ -56,7 +56,6 @@ public final class PaymentActivity extends AppCompatActivity {
             String host = uri.getHost();
             String path = uri.getPath();
 
-            // এখানে আমরা আমাদের কাস্টম কলব্যাক URL চেক করছি
             if ("com.securesoft.pay.callback".equals(scheme) && "payment-result".equals(host)) {
                 if ("/success".equals(path)) {
                     String transactionId = uri.getQueryParameter("transaction_id");
@@ -66,21 +65,18 @@ public final class PaymentActivity extends AppCompatActivity {
                         SecureSoftPay.onPaymentFailure("Payment successful, but transaction ID was missing.");
                     }
                 } else {
-                    // "/cancel" বা অন্য কোনো path হলে সেটিকে ব্যর্থ হিসেবে ধরা হবে
                     SecureSoftPay.onPaymentFailure("Payment was cancelled or failed.");
                 }
-                finish(); // ফলাফল পাওয়ার পর Activity বন্ধ করে দিন
-                return true; // URL লোডিং বন্ধ করুন
+                finish();
+                return true;
             }
 
-            // অন্য যেকোনো URL WebView-এর ভেতরেই লোড হবে
             return false;
         }
     }
 
     @Override
     public void onBackPressed() {
-        // ব্যবহারকারী ব্যাক বাটন চাপলে পেমেন্ট ক্যানসেল হিসেবে ধরা হবে
         SecureSoftPay.onPaymentFailure("Payment was cancelled by the user.");
         super.onBackPressed();
     }

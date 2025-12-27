@@ -2,7 +2,6 @@ package com.securesoft.pay;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -47,6 +46,10 @@ public final class SecureSoftPay {
             callback.onFailure("SDK not initialized. Please call SecureSoftPay.initialize() first.");
             return;
         }
+        if (config.checkoutInitiateUrl == null || config.checkoutInitiateUrl.isEmpty()) {
+            callback.onFailure("Configuration Error: checkoutInitiateUrl is not set.");
+            return;
+        }
         paymentCallback = callback;
 
         ApiService apiService = ApiClient.create(config.baseUrl);
@@ -56,14 +59,15 @@ public final class SecureSoftPay {
 
         InitiatePaymentRequestBody requestBody = new InitiatePaymentRequestBody(
                 request.amount,
-                config.baseUrl,
+                config.baseUrl, // ভেরিফিকেশনের জন্য এখানে বেস ইউআরএল ঠিকই পাঠানো হচ্ছে
                 request.customerName,
                 request.customerEmail,
                 successUrl,
                 cancelUrl
         );
 
-        apiService.initiatePayment("Bearer " + config.apiKey, requestBody).enqueue(new Callback<InitiatePaymentResponse>() {
+        // ★★★ পরিবর্তন এখানে: config থেকে ডাইনামিক URL ব্যবহার করা হচ্ছে ★★★
+        apiService.initiatePayment(config.checkoutInitiateUrl, "Bearer " + config.apiKey, requestBody).enqueue(new Callback<InitiatePaymentResponse>() {
             @Override
             public void onResponse(@NonNull Call<InitiatePaymentResponse> call, @NonNull Response<InitiatePaymentResponse> response) {
                 new Handler(Looper.getMainLooper()).post(() -> {

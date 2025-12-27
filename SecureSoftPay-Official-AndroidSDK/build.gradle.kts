@@ -40,7 +40,7 @@ afterEvaluate {
                 from(components.getByName("release"))
                 groupId = "com.github.SecureSoftPay"
                 artifactId = "SecureSoftPay-Official-AndroidSDK"
-                version = "1.2.0"
+                version = "1.3.0"
             }
         }
     }

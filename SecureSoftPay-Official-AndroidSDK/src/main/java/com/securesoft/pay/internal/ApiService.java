@@ -4,13 +4,12 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 
 public interface ApiService {
-    // ★★★ পরিবর্তন এখানে ★★★
-    // এখান থেকে "api/" অংশটি সরিয়ে দেওয়া হয়েছে।
-    // এখন এটি শুধু ফাইলের নামটি ব্যবহার করবে।
-    @POST("initiate_payment.php")
+    @POST
     Call<InitiatePaymentResponse> initiatePayment(
+            @Url String url,
             @Header("Authorization") String authHeader,
             @Body InitiatePaymentRequestBody requestBody
     );
